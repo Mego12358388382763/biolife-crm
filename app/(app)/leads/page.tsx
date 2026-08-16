@@ -47,9 +47,14 @@ export default async function LeadsPage({
           <p className="text-muted-foreground">{leads.length} leads</p>
         </div>
         {canWrite(profile) && (
-          <Button render={<Link href="/leads/new" />} nativeButton={false}>
-            New lead
-          </Button>
+          <div className="flex gap-2">
+            <Button variant="outline" render={<Link href="/leads/import" />} nativeButton={false}>
+              Import CSV
+            </Button>
+            <Button render={<Link href="/leads/new" />} nativeButton={false}>
+              New lead
+            </Button>
+          </div>
         )}
       </div>
 
