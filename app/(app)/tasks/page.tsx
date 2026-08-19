@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CompleteTaskButton } from "@/components/tasks/complete-task-button";
+import { DeleteTaskButton } from "@/components/tasks/delete-task-button";
 import { listTasks, type TaskView } from "@/lib/data/tasks";
 import { requireProfile, canWrite } from "@/lib/auth/dal";
 
@@ -14,7 +15,7 @@ const PRIORITY_VARIANT: Record<string, "default" | "secondary" | "destructive" |
   urgent: "destructive",
 };
 
-async function TaskList({ view, canComplete }: { view: TaskView; canComplete: boolean }) {
+async function TaskList({ view, canComplete, isAdmin }: { view: TaskView; canComplete: boolean; isAdmin: boolean }) {
   const tasks = await listTasks(view);
 
   if (tasks.length === 0) {
@@ -41,6 +42,7 @@ async function TaskList({ view, canComplete }: { view: TaskView; canComplete: bo
               {canComplete && task.status !== "completed" && task.status !== "cancelled" && (
                 <CompleteTaskButton taskId={task.id} />
               )}
+              {isAdmin && <DeleteTaskButton taskId={task.id} taskTitle={task.title} />}
             </div>
           </CardContent>
         </Card>
@@ -86,7 +88,7 @@ export default async function TasksPage({
           </TabsTrigger>
         </TabsList>
         <TabsContent value={view}>
-          <TaskList view={view} canComplete={writable} />
+          <TaskList view={view} canComplete={writable} isAdmin={profile.role === "admin"} />
         </TabsContent>
       </Tabs>
     </div>

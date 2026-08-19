@@ -1,13 +1,15 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { requireAdmin } from "@/lib/auth/dal";
-import { createClient } from "@/lib/supabase/server";
+import { listAllProfiles } from "@/lib/data/settings";
+import { CreateUserForm } from "@/components/settings/create-user-form";
+import { QrAccess } from "@/components/settings/qr-access";
+import { ResetDataSection } from "@/components/settings/reset-data-section";
 
 export default async function SettingsPage() {
   await requireAdmin();
-  const supabase = await createClient();
-  const { data: profiles } = await supabase.from("profiles").select("*").order("full_name");
+  const profiles = await listAllProfiles();
 
   return (
     <div className="space-y-6">
@@ -43,6 +45,39 @@ export default async function SettingsPage() {
               ))}
             </TableBody>
           </Table>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Create team account</CardTitle>
+          <CardDescription>
+            Creates a real Supabase Auth account with a securely generated password — never hardcoded and shown to
+            you only once.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <CreateUserForm />
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>QR Access</CardTitle>
+          <CardDescription>Scan to open the CRM login page on another device.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <QrAccess />
+        </CardContent>
+      </Card>
+
+      <Card className="border-destructive/40">
+        <CardHeader>
+          <CardTitle>Data Management</CardTitle>
+          <CardDescription>Reset CRM Data</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <ResetDataSection />
         </CardContent>
       </Card>
     </div>

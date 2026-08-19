@@ -1,15 +1,6 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import {
   Select,
   SelectContent,
@@ -17,15 +8,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { listLeads } from "@/lib/data/leads";
-import { listPipelineStages } from "@/lib/data/leads";
+import { LeadsTable } from "@/components/leads/leads-table";
+import { listLeads, listPipelineStages } from "@/lib/data/leads";
 import { requireProfile, canWrite } from "@/lib/auth/dal";
-
-const TEMPERATURE_VARIANT: Record<string, "default" | "secondary" | "outline"> = {
-  hot: "default",
-  warm: "secondary",
-  cold: "outline",
-};
 
 export default async function LeadsPage({
   searchParams,
@@ -87,54 +72,7 @@ export default async function LeadsPage({
         </Button>
       </form>
 
-      <div className="rounded-md border">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Name</TableHead>
-              <TableHead>Company</TableHead>
-              <TableHead>Job Title</TableHead>
-              <TableHead>Country</TableHead>
-              <TableHead>Source</TableHead>
-              <TableHead>Stage</TableHead>
-              <TableHead>Score</TableHead>
-              <TableHead>Assigned To</TableHead>
-              <TableHead>Next Follow-up</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {leads.length === 0 && (
-              <TableRow>
-                <TableCell colSpan={9} className="text-center text-muted-foreground">
-                  No leads found.
-                </TableCell>
-              </TableRow>
-            )}
-            {leads.map((lead) => (
-              <TableRow key={lead.id} className="cursor-pointer">
-                <TableCell>
-                  <Link href={`/leads/${lead.id}`} className="font-medium hover:underline">
-                    {lead.first_name} {lead.last_name}
-                  </Link>
-                  <Badge variant={TEMPERATURE_VARIANT[lead.temperature]} className="ml-2 capitalize">
-                    {lead.temperature}
-                  </Badge>
-                </TableCell>
-                <TableCell>{lead.companies?.name ?? "—"}</TableCell>
-                <TableCell>{lead.job_title ?? "—"}</TableCell>
-                <TableCell>{lead.country ?? "—"}</TableCell>
-                <TableCell>{lead.source ?? "—"}</TableCell>
-                <TableCell>{lead.pipeline_stages?.name ?? "—"}</TableCell>
-                <TableCell>{lead.lead_score}</TableCell>
-                <TableCell>{lead.profiles?.full_name ?? "Unassigned"}</TableCell>
-                <TableCell>
-                  {lead.next_follow_up_at ? new Date(lead.next_follow_up_at).toLocaleDateString() : "—"}
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </div>
+      <LeadsTable leads={leads} isAdmin={profile.role === "admin"} />
     </div>
   );
 }

@@ -132,6 +132,18 @@ export async function moveLeadStage(leadId: string, toStageId: string) {
   return data;
 }
 
+export async function deleteLead(id: string) {
+  const supabase = await createClient();
+  const { error } = await supabase.from("leads").delete().eq("id", id);
+  if (error) throw error;
+}
+
+export async function deleteLeads(ids: string[]) {
+  const supabase = await createClient();
+  const { error } = await supabase.from("leads").delete().in("id", ids);
+  if (error) throw error;
+}
+
 export async function listPipelineStages() {
   const supabase = await createClient();
   const { data, error } = await supabase

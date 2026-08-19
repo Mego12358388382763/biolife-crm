@@ -73,6 +73,12 @@ export async function updateTask(id: string, input: TaskInput) {
   return data;
 }
 
+export async function deleteTask(id: string) {
+  const supabase = await createClient();
+  const { error } = await supabase.from("tasks").delete().eq("id", id);
+  if (error) throw error;
+}
+
 export async function completeTask(id: string) {
   const supabase = await createClient();
   const { data, error } = await supabase

@@ -2,9 +2,9 @@
 
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
-import { requireProfile, canWrite } from "@/lib/auth/dal";
+import { requireProfile, requireAdmin, canWrite } from "@/lib/auth/dal";
 import { taskSchema } from "@/lib/validations/task";
-import { createTask, completeTask } from "@/lib/data/tasks";
+import { createTask, completeTask, deleteTask } from "@/lib/data/tasks";
 
 export interface TaskFormState {
   error?: string;
@@ -47,5 +47,12 @@ export async function completeTaskAction(taskId: string) {
     throw new Error("You do not have permission to complete tasks.");
   }
   await completeTask(taskId);
+  revalidatePath("/tasks");
+}
+
+// Admin-only, matches tasks_delete_admin RLS policy.
+export async function deleteTaskAction(taskId: string) {
+  await requireAdmin();
+  await deleteTask(taskId);
   revalidatePath("/tasks");
 }

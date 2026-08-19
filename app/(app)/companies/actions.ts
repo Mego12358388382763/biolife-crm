@@ -2,9 +2,9 @@
 
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
-import { requireProfile, canWrite } from "@/lib/auth/dal";
+import { requireProfile, requireAdmin, canWrite } from "@/lib/auth/dal";
 import { companySchema } from "@/lib/validations/company";
-import { createCompany, updateCompany } from "@/lib/data/companies";
+import { createCompany, updateCompany, deleteCompany } from "@/lib/data/companies";
 
 export interface CompanyFormState {
   error?: string;
@@ -72,4 +72,12 @@ export async function updateCompanyAction(
   revalidatePath("/companies");
   revalidatePath(`/companies/${companyId}`);
   redirect(`/companies/${companyId}`);
+}
+
+// Admin-only, matches companies_delete_admin RLS policy. No redirect — see
+// note on deleteLeadAction in app/(app)/leads/actions.ts.
+export async function deleteCompanyAction(companyId: string) {
+  await requireAdmin();
+  await deleteCompany(companyId);
+  revalidatePath("/companies");
 }

@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { LeadForm } from "@/components/leads/lead-form";
+import { DeleteLeadButton } from "@/components/leads/delete-lead-button";
 import { getLead, getLeadStageHistory } from "@/lib/data/leads";
 import { listCompanies } from "@/lib/data/companies";
 import { listPipelineStages } from "@/lib/data/leads";
@@ -34,17 +35,22 @@ export default async function LeadDetailPage({ params }: { params: Promise<{ id:
 
   return (
     <div className="space-y-6">
-      <div>
-        <Link href="/leads" className="text-sm text-muted-foreground hover:underline">
-          ← Back to leads
-        </Link>
-        <div className="mt-1 flex items-center gap-3">
-          <h1 className="text-2xl font-semibold">
-            {lead.first_name} {lead.last_name}
-          </h1>
-          <Badge className="capitalize">{lead.pipeline_stages?.name}</Badge>
+      <div className="flex items-start justify-between">
+        <div>
+          <Link href="/leads" className="text-sm text-muted-foreground hover:underline">
+            ← Back to leads
+          </Link>
+          <div className="mt-1 flex items-center gap-3">
+            <h1 className="text-2xl font-semibold">
+              {lead.first_name} {lead.last_name}
+            </h1>
+            <Badge className="capitalize">{lead.pipeline_stages?.name}</Badge>
+          </div>
+          {lead.companies?.name && <p className="text-muted-foreground">{lead.companies.name}</p>}
         </div>
-        {lead.companies?.name && <p className="text-muted-foreground">{lead.companies.name}</p>}
+        {profile.role === "admin" && (
+          <DeleteLeadButton leadId={lead.id} leadName={`${lead.first_name} ${lead.last_name}`} />
+        )}
       </div>
 
       <Tabs defaultValue="details">

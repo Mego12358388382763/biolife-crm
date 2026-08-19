@@ -66,6 +66,12 @@ export async function createCompany(input: CompanyInput, createdBy: string) {
   return data;
 }
 
+export async function deleteCompany(id: string) {
+  const supabase = await createClient();
+  const { error } = await supabase.from("companies").delete().eq("id", id);
+  if (error) throw error;
+}
+
 export async function updateCompany(id: string, input: CompanyInput) {
   const supabase = await createClient();
   const { data, error } = await supabase

@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/table";
 import { listCompanies } from "@/lib/data/companies";
 import { requireProfile, canWrite } from "@/lib/auth/dal";
+import { DeleteCompanyButton } from "@/components/companies/delete-company-button";
 
 export default async function CompaniesPage({
   searchParams,
@@ -19,6 +20,7 @@ export default async function CompaniesPage({
 }) {
   const params = await searchParams;
   const [profile, companies] = await Promise.all([requireProfile(), listCompanies(params.q)]);
+  const isAdmin = profile.role === "admin";
 
   return (
     <div className="space-y-6">
@@ -50,12 +52,13 @@ export default async function CompaniesPage({
               <TableHead>Country</TableHead>
               <TableHead>City</TableHead>
               <TableHead>Size</TableHead>
+              {isAdmin && <TableHead className="w-10" />}
             </TableRow>
           </TableHeader>
           <TableBody>
             {companies.length === 0 && (
               <TableRow>
-                <TableCell colSpan={5} className="text-center text-muted-foreground">
+                <TableCell colSpan={isAdmin ? 6 : 5} className="text-center text-muted-foreground">
                   No companies found.
                 </TableCell>
               </TableRow>
@@ -71,6 +74,11 @@ export default async function CompaniesPage({
                 <TableCell>{c.country ?? "—"}</TableCell>
                 <TableCell>{c.city ?? "—"}</TableCell>
                 <TableCell>{c.company_size ?? "—"}</TableCell>
+                {isAdmin && (
+                  <TableCell>
+                    <DeleteCompanyButton companyId={c.id} companyName={c.name} />
+                  </TableCell>
+                )}
               </TableRow>
             ))}
           </TableBody>

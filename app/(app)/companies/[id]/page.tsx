@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { CompanyForm } from "@/components/companies/company-form";
+import { DeleteCompanyButton } from "@/components/companies/delete-company-button";
 import { getCompany, getCompanyLeads } from "@/lib/data/companies";
 import { requireProfile, canWrite } from "@/lib/auth/dal";
 import { updateCompanyAction } from "@/app/(app)/companies/actions";
@@ -24,11 +25,16 @@ export default async function CompanyDetailPage({ params }: { params: Promise<{ 
 
   return (
     <div className="space-y-6">
-      <div>
-        <Link href="/companies" className="text-sm text-muted-foreground hover:underline">
-          ← Back to companies
-        </Link>
-        <h1 className="mt-1 text-2xl font-semibold">{company.name}</h1>
+      <div className="flex items-start justify-between">
+        <div>
+          <Link href="/companies" className="text-sm text-muted-foreground hover:underline">
+            ← Back to companies
+          </Link>
+          <h1 className="mt-1 text-2xl font-semibold">{company.name}</h1>
+        </div>
+        {profile.role === "admin" && (
+          <DeleteCompanyButton companyId={company.id} companyName={company.name} redirectAfter />
+        )}
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">

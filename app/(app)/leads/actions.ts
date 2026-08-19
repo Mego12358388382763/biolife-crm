@@ -2,9 +2,9 @@
 
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
-import { requireProfile, canWrite } from "@/lib/auth/dal";
+import { requireProfile, requireAdmin, canWrite } from "@/lib/auth/dal";
 import { leadSchema } from "@/lib/validations/lead";
-import { createLead, updateLead, moveLeadStage } from "@/lib/data/leads";
+import { createLead, updateLead, moveLeadStage, deleteLead, deleteLeads } from "@/lib/data/leads";
 
 export interface LeadFormState {
   error?: string;
@@ -89,4 +89,24 @@ export async function moveLeadStageAction(leadId: string, toStageId: string) {
   await moveLeadStage(leadId, toStageId);
   revalidatePath("/pipeline");
   revalidatePath(`/leads/${leadId}`);
+}
+
+// Deletion is restricted to admins — matches the leads_delete_admin RLS
+// policy, so this check is defense in depth rather than the only gate.
+// Does not redirect: called from client components via useTransition, where
+// throwing Next's internal redirect signal would be caught as an error.
+// Callers navigate themselves after a successful await.
+export async function deleteLeadAction(leadId: string) {
+  await requireAdmin();
+  await deleteLead(leadId);
+  revalidatePath("/leads");
+  revalidatePath("/pipeline");
+}
+
+export async function deleteLeadsAction(leadIds: string[]) {
+  await requireAdmin();
+  if (leadIds.length === 0) return;
+  await deleteLeads(leadIds);
+  revalidatePath("/leads");
+  revalidatePath("/pipeline");
 }
