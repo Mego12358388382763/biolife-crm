@@ -11,6 +11,7 @@ import {
   Building2,
   CheckSquare,
   Settings,
+  BarChart3,
 } from "lucide-react";
 
 const NAV_ITEMS = [
@@ -19,6 +20,7 @@ const NAV_ITEMS = [
   { href: "/pipeline", label: "Pipeline", icon: KanbanSquare },
   { href: "/companies", label: "Companies", icon: Building2 },
   { href: "/tasks", label: "Tasks", icon: CheckSquare },
+  { href: "/reports", label: "Reports", icon: BarChart3 },
 ];
 
 export function Sidebar({ isAdmin }: { isAdmin: boolean }) {
