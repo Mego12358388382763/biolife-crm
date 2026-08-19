@@ -2,16 +2,16 @@
 
 import { revalidatePath } from "next/cache";
 import { requireProfile, canWrite } from "@/lib/auth/dal";
-import { parseLeadsCsv, importLeads, type ImportSummary } from "@/lib/data/lead-import";
-
-export interface ImportFormState {
-  error?: string;
-  summary?: ImportSummary;
-}
+import { buildImportPreview, commitImport, type ImportPreview, type ImportResult, type PreviewRow } from "@/lib/data/lead-import";
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 
-export async function importLeadsAction(_prevState: ImportFormState, formData: FormData): Promise<ImportFormState> {
+export interface PreviewFormState {
+  error?: string;
+  preview?: ImportPreview;
+}
+
+export async function previewImportAction(_prevState: PreviewFormState, formData: FormData): Promise<PreviewFormState> {
   const profile = await requireProfile();
   if (!canWrite(profile)) {
     return { error: "You do not have permission to import leads." };
@@ -29,19 +29,31 @@ export async function importLeadsAction(_prevState: ImportFormState, formData: F
   }
 
   const text = await file.text();
-  const rows = parseLeadsCsv(text);
 
-  if (rows.length === 0) {
+  let preview: ImportPreview;
+  try {
+    preview = await buildImportPreview(text);
+  } catch (err) {
+    return { error: err instanceof Error ? err.message : "Failed to read the file." };
+  }
+
+  if (preview.totalRows === 0) {
     return { error: "No rows found in the file." };
   }
 
-  let summary: ImportSummary;
-  try {
-    summary = await importLeads(rows, profile.id);
-  } catch (err) {
-    return { error: err instanceof Error ? err.message : "Import failed." };
+  return { preview };
+}
+
+// Takes the exact rows the admin already saw in the preview (with their
+// valid/duplicate/invalid status already computed) rather than the raw
+// file, so what gets imported matches what was shown on screen.
+export async function commitImportAction(rows: PreviewRow[]): Promise<ImportResult> {
+  const profile = await requireProfile();
+  if (!canWrite(profile)) {
+    throw new Error("You do not have permission to import leads.");
   }
 
+  const result = await commitImport(rows, profile.id);
   revalidatePath("/leads");
-  return { summary };
+  return result;
 }

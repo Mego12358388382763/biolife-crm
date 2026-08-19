@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { CompanyForm } from "@/components/companies/company-form";
 import { DeleteCompanyButton } from "@/components/companies/delete-company-button";
+import { leadDisplayName } from "@/lib/utils";
 import { getCompany, getCompanyLeads } from "@/lib/data/companies";
 import { requireProfile, canWrite } from "@/lib/auth/dal";
 import { updateCompanyAction } from "@/app/(app)/companies/actions";
@@ -88,7 +89,7 @@ export default async function CompanyDetailPage({ params }: { params: Promise<{ 
                   <TableRow key={lead.id}>
                     <TableCell>
                       <Link href={`/leads/${lead.id}`} className="hover:underline">
-                        {lead.first_name} {lead.last_name}
+                        {leadDisplayName(lead)}
                       </Link>
                     </TableCell>
                     <TableCell>{lead.pipeline_stages?.name ?? "—"}</TableCell>

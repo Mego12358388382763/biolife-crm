@@ -13,10 +13,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import type { TaskFormState } from "@/app/(app)/tasks/actions";
+import { leadDisplayName } from "@/lib/utils";
 
 interface TaskFormProps {
   action: (state: TaskFormState, formData: FormData) => Promise<TaskFormState>;
-  leads: { id: string; first_name: string; last_name: string }[];
+  leads: { id: string; first_name: string | null; last_name: string | null; email: string | null; phone: string | null }[];
   assignees: { id: string; full_name: string }[];
 }
 
@@ -32,7 +33,7 @@ const STATUS_ITEMS = {
 
 export function TaskForm({ action, leads, assignees }: TaskFormProps) {
   const [state, formAction, pending] = useActionState(action, initialState);
-  const leadItems = Object.fromEntries(leads.map((l) => [l.id, `${l.first_name} ${l.last_name}`]));
+  const leadItems = Object.fromEntries(leads.map((l) => [l.id, leadDisplayName(l)]));
   const assigneeItems = Object.fromEntries(assignees.map((a) => [a.id, a.full_name]));
 
   return (
@@ -56,7 +57,7 @@ export function TaskForm({ action, leads, assignees }: TaskFormProps) {
             <SelectContent>
               {leads.map((l) => (
                 <SelectItem key={l.id} value={l.id}>
-                  {l.first_name} {l.last_name}
+                  {leadDisplayName(l)}
                 </SelectItem>
               ))}
             </SelectContent>

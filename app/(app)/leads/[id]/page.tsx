@@ -11,6 +11,7 @@ import { listPipelineStages } from "@/lib/data/leads";
 import { listActiveProfiles } from "@/lib/data/profiles";
 import { requireProfile, canWrite } from "@/lib/auth/dal";
 import { updateLeadAction } from "@/app/(app)/leads/actions";
+import { leadDisplayName } from "@/lib/utils";
 
 export default async function LeadDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -41,15 +42,13 @@ export default async function LeadDetailPage({ params }: { params: Promise<{ id:
             ← Back to leads
           </Link>
           <div className="mt-1 flex items-center gap-3">
-            <h1 className="text-2xl font-semibold">
-              {lead.first_name} {lead.last_name}
-            </h1>
+            <h1 className="text-2xl font-semibold">{leadDisplayName(lead)}</h1>
             <Badge className="capitalize">{lead.pipeline_stages?.name}</Badge>
           </div>
           {lead.companies?.name && <p className="text-muted-foreground">{lead.companies.name}</p>}
         </div>
         {profile.role === "admin" && (
-          <DeleteLeadButton leadId={lead.id} leadName={`${lead.first_name} ${lead.last_name}`} />
+          <DeleteLeadButton leadId={lead.id} leadName={leadDisplayName(lead)} />
         )}
       </div>
 
@@ -72,8 +71,8 @@ export default async function LeadDetailPage({ params }: { params: Promise<{ id:
                   assignees={assignees}
                   submitLabel="Save changes"
                   defaultValues={{
-                    first_name: lead.first_name,
-                    last_name: lead.last_name,
+                    first_name: lead.first_name ?? "",
+                    last_name: lead.last_name ?? "",
                     job_title: lead.job_title ?? "",
                     company_id: lead.company_id ?? "",
                     email: lead.email ?? "",

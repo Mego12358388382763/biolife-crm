@@ -18,14 +18,15 @@ export default async function ImportLeadsPage() {
       </CardHeader>
       <CardContent className="space-y-6">
         <div className="rounded-md border bg-muted/30 p-4 text-sm">
-          <p className="font-medium">Recognized columns (case-insensitive, any order):</p>
+          <p className="font-medium">Recognized columns (case-insensitive, any order, Arabic supported):</p>
           <p className="mt-1 text-muted-foreground">
-            First Name*, Last Name*, Email, Phone, WhatsApp, LinkedIn, Job Title, Company, Country, City, Source,
-            Notes
+            Name / Full Name, First Name, Last Name, Email, Phone, WhatsApp, LinkedIn, Job Title, Company, Country,
+            City, Source, Notes
           </p>
           <p className="mt-2 text-muted-foreground">
-            New leads start in the &quot;New&quot; pipeline stage. Companies are matched by name or created
-            automatically. Rows with an email matching an existing lead are skipped.
+            A row just needs a name, an email, or a phone number — nothing else is required. A single &quot;Name&quot;
+            column is kept as-is (never guessed apart into first/last). You&apos;ll see a preview with column
+            mapping, duplicates, and any invalid rows before anything is imported.
           </p>
         </div>
         <ImportForm />

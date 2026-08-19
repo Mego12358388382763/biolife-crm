@@ -9,6 +9,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { DeleteConfirmDialog } from "@/components/shared/delete-confirm-dialog";
 import { deleteLeadAction, deleteLeadsAction } from "@/app/(app)/leads/actions";
+import { leadDisplayName } from "@/lib/utils";
 
 const TEMPERATURE_VARIANT: Record<string, "default" | "secondary" | "outline"> = {
   hot: "default",
@@ -18,8 +19,10 @@ const TEMPERATURE_VARIANT: Record<string, "default" | "secondary" | "outline"> =
 
 interface LeadRow {
   id: string;
-  first_name: string;
-  last_name: string;
+  first_name: string | null;
+  last_name: string | null;
+  email: string | null;
+  phone: string | null;
   job_title: string | null;
   country: string | null;
   source: string | null;
@@ -113,13 +116,13 @@ export function LeadsTable({ leads, isAdmin }: { leads: LeadRow[]; isAdmin: bool
                     <Checkbox
                       checked={selected.has(lead.id)}
                       onCheckedChange={(checked) => toggleOne(lead.id, checked === true)}
-                      aria-label={`Select ${lead.first_name} ${lead.last_name}`}
+                      aria-label={`Select ${leadDisplayName(lead)}`}
                     />
                   </TableCell>
                 )}
                 <TableCell>
                   <Link href={`/leads/${lead.id}`} className="font-medium hover:underline">
-                    {lead.first_name} {lead.last_name}
+                    {leadDisplayName(lead)}
                   </Link>
                   <Badge variant={TEMPERATURE_VARIANT[lead.temperature]} className="ml-2 capitalize">
                     {lead.temperature}
@@ -139,7 +142,7 @@ export function LeadsTable({ leads, isAdmin }: { leads: LeadRow[]; isAdmin: bool
                   <TableCell>
                     <DeleteConfirmDialog
                       triggerLabel="Delete"
-                      title={`Delete ${lead.first_name} ${lead.last_name}?`}
+                      title={`Delete ${leadDisplayName(lead)}?`}
                       description="This permanently deletes the lead and its stage history. This cannot be undone."
                       onConfirm={() => deleteLeadAction(lead.id)}
                     />

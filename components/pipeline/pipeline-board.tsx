@@ -18,12 +18,15 @@ import { Card, CardContent } from "@/components/ui/card";
 import { toast } from "sonner";
 import Link from "next/link";
 import { moveLeadStageAction } from "@/app/(app)/leads/actions";
+import { leadDisplayName } from "@/lib/utils";
 import type { PipelineStage } from "@/types/database";
 
 interface PipelineLead {
   id: string;
-  first_name: string;
-  last_name: string;
+  first_name: string | null;
+  last_name: string | null;
+  email: string | null;
+  phone: string | null;
   temperature: string;
   pipeline_stage_id: string;
   companies: { name: string } | null;
@@ -56,7 +59,7 @@ function LeadCard({ lead }: { lead: PipelineLead }) {
           onClick={(e) => e.stopPropagation()}
           className="text-sm font-medium hover:underline"
         >
-          {lead.first_name} {lead.last_name}
+          {leadDisplayName(lead)}
         </Link>
         <p className="text-xs text-muted-foreground">{lead.companies?.name ?? "No company"}</p>
         <div className="flex items-center justify-between">

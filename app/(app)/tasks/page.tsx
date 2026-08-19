@@ -7,6 +7,7 @@ import { CompleteTaskButton } from "@/components/tasks/complete-task-button";
 import { DeleteTaskButton } from "@/components/tasks/delete-task-button";
 import { listTasks, type TaskView } from "@/lib/data/tasks";
 import { requireProfile, canWrite } from "@/lib/auth/dal";
+import { leadDisplayName } from "@/lib/utils";
 
 const PRIORITY_VARIANT: Record<string, "default" | "secondary" | "destructive" | "outline"> = {
   low: "outline",
@@ -30,7 +31,7 @@ async function TaskList({ view, canComplete, isAdmin }: { view: TaskView; canCom
             <div>
               <p className="font-medium">{task.title}</p>
               <p className="text-sm text-muted-foreground">
-                {task.leads ? `${task.leads.first_name} ${task.leads.last_name} · ` : ""}
+                {task.leads ? `${leadDisplayName(task.leads)} · ` : ""}
                 {task.profiles?.full_name ?? "Unassigned"}
                 {task.due_at ? ` · Due ${new Date(task.due_at).toLocaleString()}` : ""}
               </p>
