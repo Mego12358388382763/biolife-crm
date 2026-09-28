@@ -36,4 +36,4 @@ Loading (skeleton, not a spinner, for lists), empty (explain + primary action), 
 ## 6. Deliverable
 - Short rationale (what problem the layout solves).
 - The component or page code, following existing patterns.
-- A check of states, mobile width, dark mode and RTL, then run `npm run lint` and the type check before calling it done. Use the `run` skill to screenshot the result when possible.
+- A check of states, mobile width, dark mode and RTL, then run `npm run lint` and `npx tsc --noEmit` before calling it done. Use the `run` skill to screenshot the result when possible.
