@@ -14,7 +14,7 @@ description: Build a high-converting landing page with a lead form for BioLife H
 5. Proof: real testimonials only (with consent), credentials.
 6. FAQ (5 real objections).
 7. Final CTA + form.
-8. Disclaimer: "المحتوى ده للتوعية ومايغنيش عن استشارة الطبيب" where relevant. Claims pass `health-claim-check` and `ad-compliance` if it's for ads.
+8. Closing line per `ahmed-content-voice`: this complements medical treatment, it does not replace it, and no prescribed treatment should be stopped. CTA wording «قدّم على جلستك». Design per `ahmed-design-standards`. Claims pass `health-claim-check` and `ad-compliance` if it's for ads.
 
 ## Build
 

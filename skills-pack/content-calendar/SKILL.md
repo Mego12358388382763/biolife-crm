@@ -15,7 +15,7 @@ Month/week, platforms, posting frequency, current campaigns or launches (product
 2. قصص وتجارب — client journeys (with consent), personal story
 3. عملي — daily habits, food, sleep, stress tools
 4. رد على خرافات — myth vs evidence (through `health-claim-check`)
-5. بيزنس/عرض — BioLife offers, CTA to consultation/lead form (≤ 20%)
+5. بيزنس/عرض — BioLife offers, CTA «قدّم على جلستك» or the lead form (≤ 20%)
 
 ## 3. Plan
 

@@ -24,5 +24,5 @@ description: Build a tailored sales or partnership presentation for a BioLife He
 
 - One message per slide, headline as a full sentence, minimal text; details go in speaker notes.
 - Use the presentation artifact/slides type if available; otherwise the `pptx` skill when a .pptx file is requested.
-- Arabic decks right-to-left. Keep brand colors/logo if provided.
+- Arabic decks right-to-left. Brand identity, fonts and imagery per `ahmed-design-standards`; Ahmed's title per `ahmed-content-voice` (never presented as a doctor).
 - Ask for real numbers, prices and client names instead of placeholders that look real.

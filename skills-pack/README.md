@@ -37,7 +37,7 @@ weekly-kpi-report · daily-plan · sop-writer · team-onboarding · n8n-workflow
 ## حاجات مهمة
 
 - الـ skills بتشتغل مع skills عندك أصلاً، زي `health-claim-check` و`hook-factory` و`meaning-to-content`، وبتنادي عليها لما تحتاجها.
-- ابدأ بـ `brand-voice`: هيسألك على أمثلة من كلامك ويطلع منها دليل للأسلوب بتاعك، والـ skills التانية كلها هتمشي عليه.
+- `brand-voice` مبني فوق `ahmed-content-voice`: القواعد هناك، و`brand-voice` بيضيف عليها "بصمة" أسلوبك من كلامك الحقيقي (الافتتاحيات، والجمل اللي بتكررها، والإيقاع). الـ skills بتاعة الكاروسيل والـ deck وصفحات الهبوط بتمشي على `ahmed-design-standards`.
 - `icp-scoring` هيحتاج يعرف منك العميل المثالي أول مرة.
 - الـ skills اللي بتصرف credits على Apollo أو Vibe Prospecting بتقولك التكلفة الأول قبل ما تصرف.
 - ولا skill منهم بيبعت إيميل أو ينشر بوست من غير موافقتك. بيجهز drafts بس.
