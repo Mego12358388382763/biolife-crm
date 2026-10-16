@@ -8,3 +8,9 @@ import * as z from "zod";
 export const idSchema = z
   .string()
   .regex(/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/, "Invalid ID");
+
+// Free-text search box input (`?q=` on list pages). searchParams values can
+// arrive as an array (`?q=a&q=b`), so take the first; blank becomes undefined.
+export const searchQuerySchema = z
+  .preprocess((value) => (Array.isArray(value) ? value[0] : value), z.string().optional())
+  .transform((value) => value?.trim().slice(0, 100) || undefined);
