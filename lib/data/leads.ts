@@ -1,6 +1,7 @@
 import "server-only";
 import { createClient } from "@/lib/supabase/server";
 import type { LeadInput } from "@/lib/validations/lead";
+import { ilikeAnyFilter } from "@/lib/data/search";
 
 const LEAD_SELECT =
   "*, companies(name), pipeline_stages(id, name, position), profiles!leads_assigned_to_fkey(full_name)";
@@ -21,9 +22,7 @@ export async function listLeads(filters: LeadFilters = {}) {
     .order("created_at", { ascending: false });
 
   if (filters.search) {
-    query = query.or(
-      `first_name.ilike.%${filters.search}%,last_name.ilike.%${filters.search}%,email.ilike.%${filters.search}%`,
-    );
+    query = query.or(ilikeAnyFilter(["first_name", "last_name", "email"], filters.search));
   }
   if (filters.stageId) query = query.eq("pipeline_stage_id", filters.stageId);
   if (filters.assignedTo) query = query.eq("assigned_to", filters.assignedTo);

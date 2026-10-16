@@ -11,6 +11,7 @@ import {
 import { LeadsTable } from "@/components/leads/leads-table";
 import { listLeads, listPipelineStages } from "@/lib/data/leads";
 import { requireProfile, canWrite } from "@/lib/auth/dal";
+import { searchQuerySchema } from "@/lib/validations/shared";
 
 export default async function LeadsPage({
   searchParams,
@@ -21,7 +22,11 @@ export default async function LeadsPage({
   const [profile, stages, leads] = await Promise.all([
     requireProfile(),
     listPipelineStages(),
-    listLeads({ search: params.q, stageId: params.stage, temperature: params.temperature }),
+    listLeads({
+      search: searchQuerySchema.parse(params.q),
+      stageId: params.stage,
+      temperature: params.temperature,
+    }),
   ]);
 
   return (

@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/table";
 import { listCompanies } from "@/lib/data/companies";
 import { requireProfile, canWrite } from "@/lib/auth/dal";
+import { searchQuerySchema } from "@/lib/validations/shared";
 import { DeleteCompanyButton } from "@/components/companies/delete-company-button";
 
 export default async function CompaniesPage({
@@ -19,7 +20,10 @@ export default async function CompaniesPage({
   searchParams: Promise<{ q?: string }>;
 }) {
   const params = await searchParams;
-  const [profile, companies] = await Promise.all([requireProfile(), listCompanies(params.q)]);
+  const [profile, companies] = await Promise.all([
+    requireProfile(),
+    listCompanies(searchQuerySchema.parse(params.q)),
+  ]);
   const isAdmin = profile.role === "admin";
 
   return (

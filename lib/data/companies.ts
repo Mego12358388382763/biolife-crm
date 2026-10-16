@@ -1,6 +1,7 @@
 import "server-only";
 import { createClient } from "@/lib/supabase/server";
 import type { CompanyInput } from "@/lib/validations/company";
+import { escapeLikePattern } from "@/lib/data/search";
 
 export async function listCompanies(search?: string) {
   const supabase = await createClient();
@@ -11,7 +12,7 @@ export async function listCompanies(search?: string) {
     .order("name");
 
   if (search) {
-    query = query.ilike("name", `%${search}%`);
+    query = query.ilike("name", `%${escapeLikePattern(search)}%`);
   }
 
   const { data, error } = await query;

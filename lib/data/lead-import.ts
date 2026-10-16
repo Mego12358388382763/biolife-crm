@@ -1,6 +1,7 @@
 import "server-only";
 import Papa from "papaparse";
 import { createClient } from "@/lib/supabase/server";
+import { escapeLikePattern } from "@/lib/data/search";
 import { leadImportRowSchema, normalizeHeader, type LeadImportRow } from "@/lib/validations/lead-import";
 
 interface ParsedRow {
@@ -202,7 +203,7 @@ export async function commitImport(rows: PreviewRow[], createdBy: string): Promi
     const { data: existing } = await supabase
       .from("companies")
       .select("id")
-      .ilike("name", name)
+      .ilike("name", escapeLikePattern(name))
       .is("deleted_at", null)
       .maybeSingle();
 
@@ -237,7 +238,7 @@ export async function commitImport(rows: PreviewRow[], createdBy: string): Promi
       const { data: existingLead } = await supabase
         .from("leads")
         .select("id")
-        .ilike("email", row.email)
+        .ilike("email", escapeLikePattern(row.email))
         .is("deleted_at", null)
         .maybeSingle();
       if (existingLead) {
