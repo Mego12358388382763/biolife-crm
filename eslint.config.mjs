@@ -14,6 +14,9 @@ const eslintConfig = defineConfig([
     "next-env.d.ts",
     "supabase/.temp/**",
     ".netlify/**",
+    // Claude skills and the standalone video workspace are not app code.
+    ".claude/**",
+    "video-studio/**",
   ]),
 ]);
 
