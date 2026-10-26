@@ -1,0 +1,116 @@
+:root {
+  --bg: #111113;
+  --ink: #f5f2ea;
+  --muted: #a9a59c;
+  --gold: #e3bd5a;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+html,
+body {
+  width: var(--w);
+  height: var(--h);
+  overflow: hidden;
+  background: var(--bg);
+}
+
+.stage {
+  position: relative;
+  width: var(--w);
+  height: var(--h);
+  /* 9:16 safe zone: keep text clear of platform UI at top, bottom and right. */
+  padding: 260px 110px 380px 140px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 64px;
+  color: var(--ink);
+  font-family: "Cairo Variable", sans-serif;
+}
+
+.glow {
+  position: absolute;
+  inset: auto -200px -300px -200px;
+  height: 1100px;
+  background: radial-gradient(closest-side, rgba(227, 189, 90, 0.35), transparent);
+  pointer-events: none;
+}
+
+.kicker {
+  align-self: flex-start;
+  padding: 14px 34px;
+  border: 2px solid #3a3a3e;
+  border-radius: 999px;
+  font-size: 40px;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.kicker span {
+  color: var(--gold);
+}
+
+.headline {
+  font-size: 150px;
+  font-weight: 900;
+  line-height: 1.15;
+}
+
+.word {
+  display: inline-block;
+}
+
+.highlight {
+  margin-top: 16px;
+  padding: 0 30px 18px;
+  border-radius: 28px;
+  background: linear-gradient(180deg, #f0d27a, var(--gold));
+  color: #111;
+}
+
+.counter {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 190px;
+  font-weight: 900;
+  color: var(--gold);
+  font-variant-numeric: tabular-nums;
+  direction: ltr;
+  justify-content: flex-end;
+}
+
+.counter .unit {
+  font-size: 110px;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 30px;
+  font-size: 58px;
+  font-weight: 700;
+}
+
+.tick {
+  display: inline-grid;
+  place-items: center;
+  width: 74px;
+  height: 74px;
+  margin-inline-end: 22px;
+  border-radius: 50%;
+  background: var(--gold);
+  color: #111;
+  font-size: 44px;
+}
+
+.cta {
+  font-size: 64px;
+  font-weight: 800;
+  color: var(--gold);
+}

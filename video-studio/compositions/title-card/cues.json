@@ -1,0 +1,10 @@
+[
+  { "sound": "sfx/whoosh.wav", "at": 0.3, "volume": 0.7 },
+  { "sound": "sfx/hit.wav", "at": 1.43, "volume": 0.9 },
+  { "sound": "sfx/riser.wav", "at": 1.7, "volume": 0.25 },
+  { "sound": "sfx/pop.wav", "at": 2.8, "volume": 0.6 },
+  { "sound": "sfx/pop.wav", "at": 2.92, "volume": 0.6 },
+  { "sound": "sfx/pop.wav", "at": 3.04, "volume": 0.6 },
+  { "sound": "sfx/shimmer.wav", "at": 3.8, "volume": 0.5 },
+  { "sound": "sfx/whoosh.wav", "at": 6.2, "volume": 0.5 }
+]

@@ -1,0 +1,7 @@
+node_modules/
+out/
+.frames/
+public/sfx/*.wav
+public/audio/*
+!public/audio/.gitkeep
+!public/sfx/.gitkeep

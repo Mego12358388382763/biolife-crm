@@ -1,53 +1,63 @@
 ---
 name: motion-studio-toolkit
-description: Turn Claude into a motion/video studio using a fixed 10-tool stack (anatomy-reveal, anatomy, hairline, motion-design-skill, ai-kit, blender-agents, react-three-rapier, react-postprocessing, GSAP, Openverse) and a 4-step workflow (Claude writes the code → skills shape the look → engines render → Openverse adds sound). Use for ANY video, reel, ad, product reveal, explainer, animated illustration, 3D scene, motion graphics or sound design request — including "اعمل فيديو", "موشن", "أنيميشن", "ريل", "إعلان", "شرح منتج" — and pick only the tools the project actually needs.
+description: Turn Claude into a motion/video studio using the 10-tool stack from the "حوّل Claude لاستوديو موشن" guide — installed in this repo as skills (anatomy-reveal, anatomy, hairline-create/adopt, motion-design, motion) plus the video-studio/ workspace (GSAP, React Three Fiber + Rapier physics + postprocessing, Openverse/generated sound, MP4 renderer). Use for ANY video, reel, ad, product reveal, explainer, animated illustration, 3D scene, motion graphics or sound design request — including "اعمل فيديو", "موشن", "أنيميشن", "ريل", "إعلان", "شرح منتج" — and pick only the tools the project actually needs.
 ---
 
 # Motion studio toolkit (Claude → استوديو موشن)
 
-Source: the free guide «حوّل Claude لاستوديو موشن» by @ModMohna — 10 tools for illustrations, 3D, physics, motion and sound. This skill is the saved, reusable version of that guide for every future video.
+This skill saves the free guide «حوّل Claude لاستوديو موشن» by @ModMohna as a reusable setup. The guide covers 10 tools for illustrations, 3D, physics, motion and sound. The tools are installed in this repo:
+
+- **Skills**, in `.claude/skills/`: each was audited and pinned. See `SOURCES.md` beside this file.
+- **Engines and sound**, in `video-studio/`: a standalone npm workspace with a deterministic renderer to MP4. See `video-studio/README.md`.
 
 ## The workflow (طريقة الشغل)
 
-1. **Claude writes the code** — the user describes the video in words; Claude writes all of it as code (HTML/CSS/JS, React, React Three Fiber, Blender via MCP). Never ask the user to hand-animate.
-2. **Skills shape the look** — tools 01–05: timing, illustrations, natural motion.
-3. **Engines render** — tools 06–09: 3D, physics, post-processing effects, timeline.
-4. **Openverse adds sound** — tool 10: free SFX, ambience and music.
+1. **Claude writes the code.** The user describes the video in words. Claude writes all of it as code and never asks the user to hand-animate.
+2. **Skills shape the look.** Tools 01–05 handle timing, illustrations and natural motion.
+3. **Engines render.** Tools 06–09 handle 3D, physics, cinematic effects and the timeline.
+4. **Openverse adds sound.** Tool 10 provides free SFX, ambience and music.
 
-**Warning from the guide:** inspect every repo before installing it (README, licence, install scripts, what it executes), and pull in only the tools this specific project needs — not all ten.
+The guide warns: inspect every repo before installing it, and pull in only the tools this project needs. The ones below are already audited. Re-audit before updating any of them, following `SOURCES.md`.
 
-## The 10 tools
+## The 10 tools and where they live here
 
-| # | Tool | Stage | What it does | Use it when | Link |
-|---|------|-------|--------------|-------------|------|
-| 01 | `/anatomy-reveal` | Look | Explodes a product into separate parts (exploded view) and outputs a ready MP4 product-reveal video | Product ads, launch videos, showing what's inside a product | typingmind.com/skills/annnguyentt-anatomy-reveal |
-| 02 | `/anatomy` | Look | Turns machines and systems into interactive isometric illustrations showing how they work inside | Explaining a technical product, a complex system, any idea that needs a diagram | skills.wheresryan.sh/anatomy |
-| 03 | `/hairline` | Look | Interactive line-art illustrations from a written idea or your own SVG | Clean thin-line explainer drawings for posts and videos | hairline.lucasmarkes.com/skills |
-| 04 | `/motion-design-skill` | Look | Teaches Claude timing, easing and Disney's 12 principles of animation applied to UI | Motion feels robotic or stiff and must feel natural | github.com/LottieFiles/motion-design-skill |
-| 05 | `ai-kit` | Look | Motion docs, CSS spring animations and an animation audit, written for AI agents | Have Claude review and improve existing animations instead of guessing | github.com/motiondivision/ai-kit |
-| 06 | `/blender-agents` | Render | A full AI 3D team inside Blender, driven by Claude Code over MCP — describe the scene, it builds it | 3D scenes and models without learning Blender | github.com/scenario-labs/blender-plugin |
-| 07 | `/react-three-rapier` | Render | Real physics (gravity, collisions, bounce) for React Three Fiber scenes | Objects must move and fall like the real world | github.com/pmndrs/react-three-rapier |
-| 08 | `/react-postprocessing` | Render | Cinematic effects in a few lines: Bloom, Depth of Field, film effects | The final touch that takes a scene from "code" to "cinema" | github.com/pmndrs/react-postprocessing |
-| 09 | `GSAP` | Render | Timeline animation library for precise motion and scene transitions — now fully free | Any video or page with sequenced motion that needs exact timing | github.com/greensock/GSAP |
-| 10 | `/openverse-api` | Sound | 5.2M+ free sound effects, ambience and music | Videos need sound without paying for sound libraries | api.openverse.org/v1/ |
+| # | Tool | Stage | Use it when | Here |
+|---|------|-------|-------------|------|
+| 01 | anatomy-reveal | Look | Product ads, launch videos, exploded view: what's inside a product. Outputs an MP4 product-reveal film. | skill `anatomy-reveal` |
+| 02 | anatomy | Look | Explaining a technical product, a system or mechanism as an interactive isometric machine | skill `anatomy` |
+| 03 | hairline | Look | Clean thin-line explainer drawings from an idea, or from an SVG | skills `hairline-create`, `hairline-adopt` |
+| 04 | motion-design-skill | Look | Motion feels robotic or stiff. Covers timing, easing, choreography and Disney's 12 principles. | skill `motion-design` |
+| 05 | ai-kit | Look | Reviewing and improving animations, CSS springs, Motion best practices | skill `motion` (+ `motion-reviewer-agent.md`) |
+| 06 | blender-agents | Render | Complex 3D scenes and models through Blender | Not installed. It is a Blender add-on for the user's own machine (github.com/scenario-labs/blender-plugin, GPL-3.0). In the cloud, build 3D with React Three Fiber in `video-studio` instead. |
+| 07 | react-three-rapier | Render | Objects must fall, collide and bounce like the real world | `video-studio`, example `compositions/physics-3d` |
+| 08 | react-postprocessing | Render | The cinematic final touch: Bloom, Depth of Field, film noise, vignette | `video-studio`, example `compositions/physics-3d` |
+| 09 | GSAP | Render | Any sequenced motion that needs exact timing: kinetic type, counters, transitions | `video-studio`, example `compositions/title-card` |
+| 10 | Openverse | Sound | Free SFX and music, with credits | `npm run openverse` in `video-studio`. When it is offline, `npm run sfx` generates sound. |
 
 ## How to apply it on a video request
 
-1. **Brief** — goal, platform and aspect ratio (reels 9:16 1080×1920; posts 1:1 / 4:5; YouTube 16:9), length, script/voice-over, brand (for Ahmed's brands apply `ahmed-design-standards` and `ahmed-content-voice`; check health claims with `health-claim-check`).
-2. **Pick tools** with this map, then state the chosen stack and why before building:
-   - Product reveal / "what's inside" → 01 (+ 08 for polish, 10 for sound)
-   - Explaining a system, mechanism, body/process diagram → 02 or 03 (+ 09 to sequence the reveal)
-   - Kinetic typography, UI, motion graphics, counters, transitions → 09 GSAP + 04 for easing/principles
-   - Reviewing/fixing animations that feel wrong → 05 ai-kit (+ 04)
-   - 3D scene or object → 06 (Blender) or React Three Fiber; add 07 for physics, 08 for cinematic look
-   - Every finished video → 10 Openverse for SFX/music
-3. **Vet before install** — open the repo/README, check licence and what install scripts run, then install pinned versions only (`npm i gsap@<exact>`, `@react-three/rapier@<exact>`, `@react-three/postprocessing@<exact>`; skills copied into `.claude/skills/` only after reading them). If the network blocks a source, say so and fall back to what is already available (plain GSAP/CSS from a CDN, the built-in `video-ad-editor-plus` / `reel-render-pipeline` skills).
-4. **Build as code in a scratch/project folder outside this CRM's app code** — one HTML/React composition per video. Video work never goes into `app/`, `components/` or `lib/` of BioLife CRM.
-5. **Motion quality pass** (from 04/05): ease-out for entrances, ease-in for exits, 150–400 ms for UI moves and longer for scene moves, anticipation + follow-through on hero elements, staggered sequences, nothing linear unless mechanical, respect safe areas for captions/UI.
-6. **Sound** — query Openverse (`GET https://api.openverse.org/v1/audio/?q=<term>&license_type=commercial`), keep only licences that allow the use (prefer CC0 / CC BY), and record title, creator, licence and URL for attribution.
-7. **Render** — capture the composition to MP4 (Playwright/headless Chromium frame capture + ffmpeg, Blender render, or HyperFrames when the user wants a hosted HeyGen project), mix audio with ffmpeg, then QC: duration, resolution, fps, audio levels, Arabic text shaping/RTL, safe zones.
-8. **Deliver** the MP4 plus a short list: tools used, sound credits, and how to tweak timing.
+1. **Brief.** Settle the goal, the platform and its aspect ratio (reels 9:16 at 1080×1920; posts 1:1 or 4:5; YouTube 16:9), the length, and the script or voice-over. For Ahmed's brands, also apply `ahmed-design-standards` and `ahmed-content-voice`. Check health claims with `health-claim-check`.
+2. **Pick the tools, then state the chosen stack and why** before building:
+   - Product reveal or "what's inside": `anatomy-reveal`. It renders its own MP4.
+   - Explaining a mechanism, system or process: `anatomy` or `hairline-create`. Capture the figure, or rebuild the reveal as a GSAP composition.
+   - Kinetic typography, motion graphics, counters, transitions: a GSAP composition, with `motion-design` for easing and choreography.
+   - Fixing animations that feel wrong: `motion` (best-practices, css-spring) plus `motion-design`.
+   - A 3D scene: React Three Fiber in `video-studio`. Add Rapier for physics and postprocessing for the cinematic look.
+   - Every finished video: sound from Openverse, or generated SFX, laid in with `npm run mix`.
+   - Talking-head edits with captions: `video-ad-editor-plus` and `reel-render-pipeline`. Use this toolkit for the motion inserts.
+3. **Build in `video-studio/compositions/<name>/`.** Copy the closest example and keep it deterministic: `seek(frame)` depends only on the frame number. Video work never goes into the CRM's `app/`, `components/` or `lib/`.
+4. **Motion quality pass** (from `motion-design` / `motion`):
+   - Ease-out for entrances, ease-in for exits.
+   - 150–400 ms for UI-scale moves, longer for scene moves.
+   - Staggers of 60–120 ms.
+   - Anticipation and follow-through on the hero element.
+   - Nothing linear unless it is mechanical.
+   - Text stays inside the 9:16 safe zone.
+5. **Render.** Run `npm run render -- <name> --frames 30` to test, then the full render.
+6. **Sound.** Run `npm run sfx`, and/or `npm run openverse -- search "<term>"` followed by `get <id>`. Write `cues.json` and run `npm run mix`. Use only licences that allow the use: prefer CC0 or PDM, then CC BY with credit, and never NC or ND in ads.
+7. **QC.** Check duration, resolution and fps with `ffprobe`. Check audio peaks with `volumedetect`, aiming for about −10 to −1 dB. Check Arabic shaping and RTL, and safe zones, on extracted frames.
+8. **Deliver** the MP4 with a short list: the tools used, the sound credits, and how to tweak timing.
 
 ## Quick start from the guide (آخر شي)
 
-Try one tool today: start with **motion-design-skill** if your motion feels stiff, or **Openverse** if your videos are silent.
+Try one tool today: start with **motion-design** if your motion feels stiff, or **Openverse** if your videos are silent.
