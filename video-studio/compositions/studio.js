@@ -4,8 +4,11 @@
 // then calls seek(frame) for frame = 0..totalFrames-1 and screenshots the page
 // after each one, so motion must depend only on the frame number, never on the
 // wall clock. In a normal browser tab (npm run dev) the composition plays live.
+// cues (optional) are sound effects the composition wants under each motion,
+// [{ sound: "sfx/whoosh.wav", at: 1.2, volume: 0.6 }]; the renderer saves them
+// next to the video for scripts/mix.mjs.
 
-export function registerStudio({ width, height, fps, duration, seek }) {
+export function registerStudio({ width, height, fps, duration, seek, cues = [] }) {
   const totalFrames = Math.round(duration * fps);
   const rendering = new URLSearchParams(location.search).has("render");
 
@@ -18,6 +21,7 @@ export function registerStudio({ width, height, fps, duration, seek }) {
     fps,
     duration,
     totalFrames,
+    cues,
     seek: async (frame) => {
       // Only await real Promises: GSAP timelines are thenables that resolve on
       // completion, so awaiting a paused one would hang forever.

@@ -1,6 +1,6 @@
 ---
 name: motion-studio-toolkit
-description: Turn Claude into a motion/video studio using the 10-tool stack from the "حوّل Claude لاستوديو موشن" guide — installed in this repo as skills (anatomy-reveal, anatomy, hairline-create/adopt, motion-design, motion) plus the video-studio/ workspace (GSAP, React Three Fiber + Rapier physics + postprocessing, Openverse/generated sound, MP4 renderer). Use for ANY video, reel, ad, product reveal, explainer, animated illustration, 3D scene, motion graphics or sound design request — including "اعمل فيديو", "موشن", "أنيميشن", "ريل", "إعلان", "شرح منتج" — and pick only the tools the project actually needs.
+description: Turn Claude into a motion/video studio using the 10-tool stack from the "حوّل Claude لاستوديو موشن" guide — installed in this repo as skills (anatomy-reveal, anatomy, hairline-create/adopt, motion-design, motion) plus the video-studio/ workspace (GSAP, React Three Fiber + Rapier physics + postprocessing, Openverse/generated sound, MP4 renderer). Includes the six-step voiceover workflow (hook-first script → ElevenLabs voice → word-synced captions → plain-language scenes → auto SFX, −14 LUFS, 1080p60 export). Use for ANY video, reel, ad, product reveal, explainer, animated illustration, 3D scene, motion graphics or sound design request — including "اعمل فيديو", "موشن", "أنيميشن", "ريل", "إعلان", "شرح منتج" — and pick only the tools the project actually needs.
 ---
 
 # Motion studio toolkit (Claude → استوديو موشن)
@@ -18,6 +18,29 @@ This skill saves the free guide «حوّل Claude لاستوديو موشن» by
 4. **Openverse adds sound.** Tool 10 provides free SFX, ambience and music.
 
 The guide warns: inspect every repo before installing it, and pull in only the tools this project needs. The ones below are already audited. Re-audit before updating any of them, following `SOURCES.md`.
+
+## Voiceover-driven motion video (the ModMohna six-step post)
+
+Use this as the default for narrated reels and explainers. Commands are in `video-studio/README.md`.
+
+1. **Give Claude the material.** The post used a project ZIP plus a guide PDF. Here, the toolkit and `video-studio/` play the ZIP's role, and the user's brief, guide or PDF is the spec. Read it fully first, prepare the project, then ask for or write the script.
+2. **Write the hook first.**
+   - The script is the video: every on-screen motion is tied to a spoken word.
+   - About 150 words is 60–90 s. The first 3 seconds decide whether people stay.
+   - Use `hook-factory` for options and `ahmed-content-voice` for Ahmed's brands.
+   - Save it as `compositions/<name>/script.txt`.
+3. **Give it a voice.** Run `npm run voiceover -- <name>`. This calls ElevenLabs with an expressive voice, `eleven_v3`, stability 0.5. Energy matters more than a perfect accent.
+   - The key goes in the `ELEVENLABS_API_KEY` env secret and is never committed.
+   - If the API is blocked here, the user generates the MP3 in ElevenLabs, saves it as `voiceover.mp3`, and runs `npm run align -- <name>`.
+   - `--engine espeak` gives a timing draft only.
+4. **Claude syncs every word.** `words.json` holds each word's time. Text hits the screen on the rhythm of the voice, and hot words get a highlight, a bounce and a pop.
+5. **Describe scenes; never keyframe by hand.**
+   - Write each scene in `scenes.js` as one plain sentence of what happens, then the GSAP code that does exactly that, timed with `at("word")`.
+   - Apply `motion-design` easing: ease-out in, ease-in out, staggers, anticipation.
+6. **Edit, add sound, export.**
+   - Review with `--stills`; one sentence of feedback changes the whole video.
+   - `npm run make -- <name>` adds an SFX on every motion, ducks the music under the voice, normalises to −14 LUFS, and exports 1080p60.
+   - Report the LUFS and true-peak values it prints.
 
 ## The 10 tools and where they live here
 
