@@ -5,3 +5,4 @@ public/sfx/*.wav
 public/audio/*
 !public/audio/.gitkeep
 !public/sfx/.gitkeep
+compositions/*/voiceover.mp3

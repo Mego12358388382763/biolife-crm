@@ -8,7 +8,10 @@
     "render": "node scripts/render.mjs",
     "sfx": "node scripts/sfx.mjs",
     "openverse": "node scripts/openverse.mjs",
-    "mix": "node scripts/mix.mjs"
+    "mix": "node scripts/mix.mjs",
+    "voiceover": "node scripts/voiceover.mjs",
+    "align": "node scripts/align.mjs",
+    "make": "node scripts/make.mjs"
   },
   "dependencies": {
     "@fontsource-variable/cairo": "5.3.0",
