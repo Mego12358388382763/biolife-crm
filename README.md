@@ -28,7 +28,7 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 - `graphify-out/GRAPH_REPORT.md` — the core functions and the main areas of the code.
 - `graphify-out/graph.json` — the full graph, for `graphify query "…"`, `graphify path "A" "B"` or `graphify explain "X"`.
 
-Only code is mapped (`app/`, `components/`, `lib/`, `supabase/`, `types/`, `proxy.ts`); `.graphifyignore` keeps docs, media, data files and `video-studio/` out. To refresh after code changes:
+Only code is mapped (`app/`, `components/`, `lib/`, `supabase/`, `types/`, `proxy.ts`); `.graphifyignore` keeps docs, media and data files out. To refresh after code changes:
 
 ```bash
 uv tool install "graphifyy[sql]"   # once
@@ -36,6 +36,14 @@ graphify update .
 ```
 
 No git hooks or Claude Code hooks are installed for it.
+
+## Video & Motion Skills (moved out)
+
+The video/motion skills (anatomy, anatomy-reveal, hairline-adopt, hairline-create, motion, motion-design, motion-studio-toolkit) and the `video-studio/` workspace were removed from this repo so CRM sessions don't load them. They are kept in git history; to bring them back (e.g. into a separate repo):
+
+```bash
+git checkout 8a4ab44 -- .claude/skills/anatomy .claude/skills/anatomy-reveal .claude/skills/hairline-adopt .claude/skills/hairline-create .claude/skills/motion .claude/skills/motion-design .claude/skills/motion-studio-toolkit video-studio
+```
 
 ## Learn More
 

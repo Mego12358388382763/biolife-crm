@@ -1,6 +1,5 @@
 # Graphify maps the CRM's code only (app, components, lib, supabase, types, proxy.ts).
 # Keep docs, media, data exports and tooling out of the graph.
-video-studio/
 skills-pack/
 .claude/
 public/
