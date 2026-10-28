@@ -42,3 +42,8 @@ next-env.d.ts
 
 # Local Netlify folder
 .netlify
+
+# graphify: commit the map (graph.html, graph.json, GRAPH_REPORT.md), not its local cache/state
+/graphify-out/cache/
+/graphify-out/.graphify_*
+/graphify-out/manifest.json

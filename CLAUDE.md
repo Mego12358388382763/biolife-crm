@@ -59,6 +59,7 @@ supabase/
   migrations/              Version-controlled SQL
   seed.sql                 Local dev notes only — no accounts, no operational data
 proxy.ts                   Route protection (Next.js 16 — replaces middleware.ts)
+graphify-out/              Code map (GRAPH_REPORT.md, graph.json) — a starting point, verify against source
 ```
 
 ## Settings → Data Management & QR Access

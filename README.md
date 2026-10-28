@@ -20,6 +20,23 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Code Map (Graphify)
+
+`graphify-out/` holds a map of the CRM's code, built locally with [Graphify](https://github.com/safishamsi/graphify) (tree-sitter only, no AI calls, no telemetry):
+
+- `graphify-out/graph.html` — open in a browser to explore how pages, Server Actions, data functions and migrations connect.
+- `graphify-out/GRAPH_REPORT.md` — the core functions and the main areas of the code.
+- `graphify-out/graph.json` — the full graph, for `graphify query "…"`, `graphify path "A" "B"` or `graphify explain "X"`.
+
+Only code is mapped (`app/`, `components/`, `lib/`, `supabase/`, `types/`, `proxy.ts`); `.graphifyignore` keeps docs, media, data files and `video-studio/` out. To refresh after code changes:
+
+```bash
+uv tool install "graphifyy[sql]"   # once
+graphify update .
+```
+
+No git hooks or Claude Code hooks are installed for it.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
